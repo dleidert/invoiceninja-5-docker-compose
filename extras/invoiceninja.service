@@ -9,7 +9,7 @@ User=root
 Group=docker
 WorkingDirectory=<PATH>/ninja-docker-compose
 EnvironmentFile=-<PATH>/ninja-docker-compose/.env
-Environment=INVOICE_NINJA_HOME=<PATH>/ninja
+Environment=INVOICE_NINJA_HOME=<PATH>/data
 ExecStartPre=/usr/bin/docker-compose pull --include-deps
 ExecStart=/usr/bin/docker-compose up
 ExecReload=/usr/bin/docker-compose restart -t 30
