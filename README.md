@@ -89,8 +89,8 @@ the tunnel exists, and we can view, change, and backup the remote database.
 
 ## Issues and FAQS
 
-** I: The interface shows only a few languages and currencies and misses most
-after the first login. **
+**I: The interface shows only a few languages and currencies and misses most
+after the first login**
 
 Open <http://your.domain.tld/update?secret=secret> in the browser. Of course
 replace the placeholder here by the real domain.
@@ -98,7 +98,7 @@ replace the placeholder here by the real domain.
 Thanks to
 <https://forum.invoiceninja.com/t/missing-languages-currencies/12026/3>.
 
-** I: There is an update available **
+**I: There is an update available**
 
 If we run the systemd service, we just restart the server:
 
