@@ -1,4 +1,4 @@
-# invoiceninja-docker-compose - Sample docker-compose Config for Invoice Ninja
+# invoiceninja-5-docker-compose - Sample docker-compose Config for Invoice Ninja
 
 This is an example setup to run a self-hosted Invoice Ninja instance via Docker
 container. The idea is to run everything inside a container and to not expose

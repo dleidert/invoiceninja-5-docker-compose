@@ -2,7 +2,7 @@
 Description=Invoice Ninja Docker Service
 Requires=docker.service
 After=network.target docker.service
-ConditionPathExists=<PATH>/invoiceninja-docker-compose/docker-compose.yml
+ConditionPathExists=<PATH>/invoiceninja-5-docker-compose/docker-compose.yml
 
 [Service]
 User=root
@@ -15,7 +15,7 @@ ExecStart=/usr/bin/docker-compose up
 ExecReload=/usr/bin/docker-compose restart -t 30
 ExecStop=/usr/bin/docker-compose down --remove-orphans
 Restart=on-failure
-StandardOutput=append:<PATH>/invoiceninja-docker-compose/logs/invoiceninja-docker.log
+StandardOutput=append:<PATH>/invoiceninja-5-docker-compose/logs/invoiceninja-docker.log
 StandardError=inherit
 
 [Install]
