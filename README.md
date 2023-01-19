@@ -45,3 +45,74 @@ The full setup further requires a reverse-proxy configuration for
 [Apache2](extras/apache2-site.conf) or Nginx, and a [systemd system
 service](extras/invoiceninja.service) to automatically start and restart the
 container union.
+
+## Required Software
+
+This software is required:
+
+  * `docker.io` | `docker-ce` | `docker`
+  * optional: `docker-compose` (one can use `docker compose` command as well)
+  * `apache2` | `nginx-light` | `nginx`
+
+The docker version shipped in most distributions might already be fine. It
+definitely is for Debian Bullseye, for example. There is not really a reason to
+get the docker CE packages.
+
+If SysVinit is used instead of systemd, then the service file contains every
+necessary to write an init script based on it.
+
+## Configuration
+
+Although one can change the [`docker-compose.yml`](docker-compose.yml) file,
+most configuration takes place in the [`.env`](.env) file. There is an example
+configuration in the [`.env.example`](.env.example) file.
+
+Let's go though each item:
+
+  * `INVOICE_NINJA_HOME`: This is used in the [`docker-compose.yml`](docker-compose.yml) file to define the local path where the database and the application files should be stored outside the container in a persistent location. The variable in the systemd service file overwrites the variable defined here.
+
+## Accessing phpMyAdmin
+
+It is intended to not expose the port to access the phpMyAdmin service to the
+public. To use it, we can create an SSH forward tunnel from our host to the
+server running the container. A forward tunnel is basically a tunnel, that
+starts on a local IP and port and forwards all packetsi from there to a remote
+IP and port. So, if phpMyAdmin is available on the remote server on `localhost`
+port `8000`, we can do:
+
+```
+ssh -N -L localhost:8000:localhost:8000 <remote server>
+```
+
+then we can access phpMyAdmin locally via <http://localhost:8000/> as long as
+the tunnel exists, and we can view, change, and backup the remote database.
+
+## Issues and FAQS
+
+** I: The interface shows only a few languages and currencies and misses most
+after the first login. **
+
+Open <http://your.domain.tld/update?secret=secret> in the browser. Of course
+replace the placeholder here by the real domain.
+
+Thanks to
+<https://forum.invoiceninja.com/t/missing-languages-currencies/12026/3>.
+
+** I: There is an update available **
+
+If we run the systemd service, we just restart the server:
+
+```
+sudo systemctl restart invoiceninja.service
+```
+
+If we run the containers manually, then we basically have to shut the
+containers down, pull the updates, and start them again:
+
+```
+docker-compose down
+docker-compose pull --include-deps
+docker-compose up (-d)
+```
+
+
