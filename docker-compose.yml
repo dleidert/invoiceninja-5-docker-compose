@@ -1,0 +1,64 @@
+# vim: set ts=2 sw=2 ai si et:
+---
+
+version: '3'
+
+services:
+  web:
+    image: nginx:latest
+    restart: 'always'
+    container_name: invoiceninja_web
+    depends_on:
+      - app
+    env_file: .env
+    volumes:
+      - '/etc/timezone:/etc/timezone:ro'
+      - '/etc/localtime:/etc/localtime:ro'
+      - './vhost.conf:/etc/nginx/conf.d/in-vhost.conf:ro'
+      - '$INVOICE_NINJA_HOME/public:/var/www/app/public:ro'
+    ports:
+      - '127.0.0.1:8082:80'
+    networks:
+      - invoiceninja
+
+  app:
+    image: invoiceninja/invoiceninja:5
+    restart: 'always'
+    container_name: invoiceninja_app
+    depends_on:
+      - db
+    hostname: in5
+    env_file: .env
+    volumes:
+      - '/etc/timezone:/etc/timezone:ro'
+      - '/etc/localtime:/etc/localtime:ro'
+      - '$INVOICE_NINJA_HOME/public:/var/www/app/public'
+      - '$INVOICE_NINJA_HOME/storage:/var/www/app/storage'
+    networks:
+      - invoiceninja
+
+  db:
+    image: mysql:8
+    restart: 'always'
+    container_name: 'invoiceninja_db'
+    env_file: .env
+    volumes:
+      - '$INVOICE_NINJA_HOME/db:/var/lib/mysql'
+    networks:
+      - invoiceninja
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: 'always'
+    container_name: 'invoiceninja_dbadmin'
+    env_file: .env
+    ports:
+      - '127.0.0.1:8000:80'
+    networks:
+      - invoiceninja
+    environment:
+      PMA_HOST: '$DB_HOST'
+      PMA_PORT: 3306
+
+networks:
+  invoiceninja:
