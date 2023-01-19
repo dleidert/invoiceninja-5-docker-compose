@@ -35,7 +35,7 @@ a recent operating system supporting Docker. The containers involved are:
   * [`invoiceninja_dbadmin`](docker-compose.yml#L50-L61): The official
     phpMyAdmin container running a web interface to the database. This
     container is completely **optional**. Its interface is not made public, but
-    available via localhost. We can access it through a temporary forward SSH
+    available via `localhost.` We can access it through a temporary forward SSH
     tunnel.
 
 The containers share the same [network](docker-compose.yml#L63-L64) to be able
